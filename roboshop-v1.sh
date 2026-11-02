@@ -17,7 +17,7 @@ do
         --output text
     )
     echo "$instance ID: $instance_id"
-    if [ $instance ne "frontend" ]; then
+    if [ $instance != "frontend" ]; then
         IP =$(aws ec2 describe-instances \
         --instance-ids $ami_id \
         --query "Reservations[].Instances[].PrivateIpAddress" \
