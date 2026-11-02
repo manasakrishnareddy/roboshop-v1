@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ami_id="ami-0055977a6e828a4f4"
-instance-type="t3.micro"
-domain-name="paleminvest.online"
-hosted-zone="Z08132011Z2LFXPDOFD26"
+instance_type="t3.micro"
+domain_name="paleminvest.online"
+hosted_zone="Z08132011Z2LFXPDOFD26"
 
 for instance in $@
 do
