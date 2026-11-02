@@ -17,7 +17,7 @@ do
         --output text
     )
     echo "$instance ID: $instance_id"
-    
+
     if [ $instance != "frontend" ]; then
         IP=$( aws ec2 describe-instances \
         --instance-ids $instance_id \
@@ -33,6 +33,7 @@ do
         )
         r53_record="$domain_name"
     fi
+    
     aws route53 change-resource-record-sets \
   --hosted-zone-id $hosted_zone_id \
   --change-batch '{
