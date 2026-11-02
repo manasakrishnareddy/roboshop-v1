@@ -8,7 +8,7 @@ hosted_zone_id="Z08132011Z2LFXPDOFD26"
 for instance in $@
 do
     echo "Creating Instance: $instance"
-    instance_id=$(aws ec2 run-instances \
+    instance_id=$( aws ec2 run-instances \
         --image-id $ami_id \
         --instance-type $instance_type \
         --security-groups "roboshop-common-SG" "roboshop-$instance-SG" \
@@ -18,7 +18,7 @@ do
     )
     echo "$instance ID: $instance_id"
     if [ $instance != "frontend" ]; then
-        IP =$(aws ec2 describe-instances \
+        IP =$( aws ec2 describe-instances \
         --instance-ids $instance_id \
         --query "Reservations[].Instances[].PrivateIpAddress" \
         --output text 
@@ -39,7 +39,7 @@ do
       {
         "Action": "UPSERT",
         "ResourceRecordSet": {
-          "Name": "$r53_record",
+          "Name": "'$r53_record'",
           "Type": "A",
           "TTL": 1,
           "ResourceRecords": [{"Value": "'$IP'"}]
