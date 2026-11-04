@@ -16,13 +16,13 @@ mkdir -p $logs_folder
 echo "Script  started executing at $(date +"%F %T")" &>> $logs_file
 validate(){
     if [ $? -ne 0 ]; then
-        echo "${2} ${R}failed${N}"  | tee -a $logs_file
+        echo "${2} ${R}Failed${N}"  | tee -a $logs_file
     else
         echo "${2} ${G}Success${N}" | tee -a $logs_file
     fi
 }
 
-cp mongo.repo /etc/ym.repos.d/mongo.repo
+cp mongo.repo /etc/yum.repos.d/mongo.repo
 
 validate $? "Adding Mongo repo"
 
