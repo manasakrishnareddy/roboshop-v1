@@ -22,14 +22,14 @@ validate(){
     fi
 }
 
-cp mango.repo /etc/ym.repos.d/mango.repo
+cp mongo.repo /etc/ym.repos.d/mongo.repo
 
 validate $? "Adding Mongo repo"
 
-dnf install mongodb-org -y
+dnf install mongodb-org -y &>> $logs_file
 validate $? "Install MongoDB"
 
-systemctl enable mongod
-systemctl start mongod
+systemctl enable mongod &>> $logs_file
+systemctl start mongod &>>$logs_file
 validate $? "Enable & start MongoDB"
 
