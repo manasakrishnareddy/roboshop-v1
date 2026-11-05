@@ -4,6 +4,7 @@ user_id=$(id -u)
 logs_folder="/var/log/roboshop"
 logs_file="${logs_folder}/${0}.log"
 domain_name="paleminvest.online"
+script_dir=$(dirname "$(realpath "$0")")
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -45,6 +46,8 @@ validate $? "Creating App Directory"
 curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip
 validate $? "Downloading catalogue"
 
+rm -rf /app
+validate $? "Removing  old code"
 cd /app
 unzip /tmp/catalogue.zip &>>$logs_file
 validate $? "Unzipping catalogue"
@@ -52,10 +55,17 @@ validate $? "Unzipping catalogue"
 npm install &>>$logs_file
 validate $? "Installing dependencies"
 
-sed -i "s/DOMAIN_NAME/$domain_name" catalogue.service
-cp catalogue.service /etc/systemd/system/catalogue.service
+
+sed -i "s/DOMAIN_NAME/$domain_name/g" "$script_dir/catalogue.service"
+cp "$script_dir/catalogue.service" /etc/systemd/system/catalogue.service
 
 systemctl daemon-reload &>>$logs_file
 systemctl enable catalogue &>>$logs_file
 systemctl start catalogue &>>$logs_file
 validate $? "Start and enabling catalogue"
+
+cp "$script_dir/mongo.repo" /etc/yum.repos.d/mongo.repo
+validate $? "Adding Mongo repo"
+
+dnf install mongodb-mongosh -y &>>$logs_file
+validate $? "Installing MongoDB Client" 
