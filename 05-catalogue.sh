@@ -33,21 +33,22 @@ dnf install nodejs -y &>>$logs_file
 validate $? "Installing Nodejs 24"
 
 id roboshop &>>$logs_file
-if  [ $? -ne 0]; then 
+if  [ $? -ne 0 ]; then 
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$logs_file
     validate $? "Creating system user"
 else
     echo -e "System user roboshop already exist ...${Y} Skipping${N}"
 fi
 
+rm -rf /app
+validate $? "Removing  old code"
+
 mkdir -p /app
 validate $? "Creating App Directory"
 
-curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip
+curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip &>>$logs_file
 validate $? "Downloading catalogue"
 
-rm -rf /app
-validate $? "Removing  old code"
 cd /app
 unzip /tmp/catalogue.zip &>>$logs_file
 validate $? "Unzipping catalogue"
