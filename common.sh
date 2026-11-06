@@ -16,7 +16,8 @@ fi
 }
 
 mkdir -p $logs_folder
-echo "Script  started executing at $(date +"%F %T")" &>> $logs_file
+echo "$(timestamp) [INFO] === Script started Execution ===" | tee -a $logs_file
+
 validate(){
     if [ $? -ne 0 ]; then
         echo -e "${2} ${R}Failed${N}"  | tee -a $logs_file
@@ -25,4 +26,8 @@ validate(){
     fi
 }
 
-echo "$(timestamp) [INFO] === Script started Execution ===" | tee -a $logs_file
+total_time()
+{
+    echo "$(timestamp) [INFO] Script Completed in $SECONDS Seconds" | tee -a $logs_file
+    echo "$(timestamp) [INFO] === Script Completed Execution ===" | tee -a $logs_file
+}
