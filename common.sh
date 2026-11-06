@@ -25,7 +25,6 @@ validate(){
         echo -e "${2} ${G}Success${N}" | tee -a $logs_file
     fi
 }
-
 total_time()
 {
     echo "$(timestamp) [INFO] Script Completed in $SECONDS Seconds" | tee -a $logs_file
