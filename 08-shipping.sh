@@ -73,13 +73,16 @@ cp "$script_dir/shipping.service" /etc/systemd/system/shipping.service
 dnf install mysql -y &>>$logs_file
 validate $? "Installing Mysql client"
 
-count=$(mysql -h "mysql.$domain_name" -u root -pRoboShop@1 -N -B -e "SELECT count(*) FROM cities.cities;" 2>>$logs_file)
+count=$(mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 -N -B -e "SELECT count(*) FROM cities.cities;" 2>>$logs_file)
 if [ -z "$count" ] || [$count -eq 0 ]; then 
     mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/master-data.sql
     validate $? "Loading shipping data"
 else
    echo -e "$(timestamp) [INFO] Master data Already loaded...${Y} Skipping${N}"
 fi
+
+mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/app-user.sql
+validate $? "Creating App User"
 
 systemctl daemon-reload &>>$logs_file
 systemctl enable shipping &>>$logs_file
