@@ -27,6 +27,8 @@ validate(){
     fi
 }
 
+echo "$(timestamp) [INFO] === Script started Execution ===" | tee -a $logs_file
+
 dnf install python3.14 python3.14-pip -y &>>$logs_file
 validate $? "Installing Python 3.14"
 
